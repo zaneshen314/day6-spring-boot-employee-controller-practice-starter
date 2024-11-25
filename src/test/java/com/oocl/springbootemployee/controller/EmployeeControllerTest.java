@@ -3,6 +3,8 @@ package com.oocl.springbootemployee.controller;
 import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +22,7 @@ import static org.hamcrest.Matchers.hasSize;
 @AutoConfigureJsonTesters
 public class EmployeeControllerTest {
 
+    private static final Logger log = LoggerFactory.getLogger(EmployeeControllerTest.class);
     @Autowired
     private MockMvc client;
     @Autowired
@@ -54,4 +57,20 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(employee.getAge()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(employee.getGender().name()));
     }
+
+    @Test
+    void should_return_employee_when_getById_given_no_exist_id() {
+        // Given
+        long id = 999;
+
+        // When & Then
+        try {
+            client.perform(MockMvcRequestBuilders.get("/employees/"+ id))
+                    .andExpect(MockMvcResultMatchers.status().is5xxServerError());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
+
 }
