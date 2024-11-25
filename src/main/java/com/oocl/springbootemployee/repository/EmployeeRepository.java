@@ -42,4 +42,8 @@ public class EmployeeRepository {
         employees.add(employee);
         return employee;
     }
+
+    public void deleteById(Long id) {
+        employees.remove(getById(id));
+    }
 }
