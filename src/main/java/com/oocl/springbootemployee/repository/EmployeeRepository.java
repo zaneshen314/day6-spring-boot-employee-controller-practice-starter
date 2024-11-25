@@ -46,4 +46,8 @@ public class EmployeeRepository {
     public void deleteById(Long id) {
         employees.remove(getById(id));
     }
+
+    public Employee update(Long id, Employee employee) {
+        return null;
+    }
 }

@@ -147,4 +147,26 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
+    @Test
+    void should_return_employee_when_update_given_employee() throws Exception {
+        // Given
+        List<Employee> employees = employeeRepository.getAll();
+        Employee employee = employees.get(0);
+
+        String content = "{\n" +
+                "    \"name\": \"" + employee.getName() + "\",\n" +
+                "    \"age\": " +  employee.getAge() + 1 +",\n" +
+                "    \"gender\": \"" + employee.getGender() + "\",\n" +
+                "    \"salary\": " + employee.getSalary() + 10 + "\n" +
+                "}";
+
+        // When & Then
+        client.perform(MockMvcRequestBuilders.put("/employees/" + employee.getId()).contentType(MediaType.APPLICATION_JSON).content(content))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employee.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(employee.getAge() + 1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(employee.getGender().name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(employee.getSalary() + 10));
+    }
+
 }
