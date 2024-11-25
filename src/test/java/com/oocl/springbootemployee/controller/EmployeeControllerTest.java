@@ -152,21 +152,23 @@ public class EmployeeControllerTest {
         // Given
         List<Employee> employees = employeeRepository.getAll();
         Employee employee = employees.get(0);
+        Integer newAge = employee.getAge() + 1;
+        Double newSalary = employee.getSalary() + 10;
 
         String content = "{\n" +
                 "    \"name\": \"" + employee.getName() + "\",\n" +
-                "    \"age\": " +  employee.getAge() + 1 +",\n" +
+                "    \"age\": " +  newAge +",\n" +
                 "    \"gender\": \"" + employee.getGender() + "\",\n" +
-                "    \"salary\": " + employee.getSalary() + 10 + "\n" +
+                "    \"salary\": " + newSalary + "\n" +
                 "}";
 
         // When & Then
         client.perform(MockMvcRequestBuilders.put("/employees/" + employee.getId()).contentType(MediaType.APPLICATION_JSON).content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employee.getName()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(employee.getAge() + 1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(newAge))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(employee.getGender().name()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(employee.getSalary() + 10));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(newSalary));
     }
 
 }

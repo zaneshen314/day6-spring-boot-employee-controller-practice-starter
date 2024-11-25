@@ -48,6 +48,9 @@ public class EmployeeRepository {
     }
 
     public Employee update(Long id, Employee employee) {
-        return null;
+        Employee byId = getById(id);
+        byId.setAge(employee.getAge());
+        byId.setSalary(employee.getSalary());
+        return byId;
     }
 }

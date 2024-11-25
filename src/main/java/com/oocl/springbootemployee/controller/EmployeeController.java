@@ -47,4 +47,9 @@ public class EmployeeController {
         employeeRepository.deleteById(id);
     }
 
+    @PutMapping("/{id}")
+    public Employee updateById(@PathVariable Long id, @RequestBody Employee employee) {
+        return employeeRepository.update(id, employee);
+    }
+
 }
