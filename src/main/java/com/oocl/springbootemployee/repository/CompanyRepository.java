@@ -2,13 +2,11 @@ package com.oocl.springbootemployee.repository;
 
 import com.oocl.springbootemployee.entity.BasePage;
 import com.oocl.springbootemployee.entity.Company;
-import com.oocl.springbootemployee.entity.CompanyResponse;
 import com.oocl.springbootemployee.entity.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class CompanyRepository {
@@ -25,10 +23,6 @@ public class CompanyRepository {
 
     public Company getCompanyById(Long id) {
         return getAll().stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
-    }
-    public CompanyResponse getCompanyResById(Long id) {
-        Company company = getCompanyById(id);
-        return company != null ? new CompanyResponse(company.getId(),company.getName()) : null;
     }
 
     public List<Employee> getEmployeesByCompanyId(Long id) {

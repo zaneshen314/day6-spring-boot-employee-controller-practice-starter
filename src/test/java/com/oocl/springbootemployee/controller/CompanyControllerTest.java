@@ -63,10 +63,10 @@ public class CompanyControllerTest {
         String companyJson = client.perform(MockMvcRequestBuilders.get("/companies"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        List<Company> employees = listJson.parseObject(companyJson);
+        List<Company> companies = listJson.parseObject(companyJson);
 
         // Then
-        assertThat(employees).isEqualTo(givenCompanies);
+        assertThat(companies).isEqualTo(givenCompanies);
     }
 
     @Test
@@ -75,12 +75,14 @@ public class CompanyControllerTest {
         final List<Company> givenCompanies = companyRepository.getAll();
         Company company = givenCompanies.get(0);
 
-
-        // When & Then
-        client.perform(MockMvcRequestBuilders.get("/companies/" + company.getId()))
+        // When
+        String companyJson = client.perform(MockMvcRequestBuilders.get("/companies/" + company.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(company.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(company.getName()));
+                .andReturn().getResponse().getContentAsString();
+        Company returnedCompany = json.parseObject(companyJson);
+
+        // Then
+        assertThat(returnedCompany).isEqualTo(company);
     }
 
     @Test
