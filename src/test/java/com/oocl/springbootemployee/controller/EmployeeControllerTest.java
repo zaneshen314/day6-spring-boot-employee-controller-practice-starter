@@ -3,6 +3,7 @@ package com.oocl.springbootemployee.controller;
 import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.entity.Gender;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,14 @@ public class EmployeeControllerTest {
     public JacksonTester<Employee> json;
     @Autowired
     private JacksonTester<List<Employee>> listJson;
+
+    @BeforeEach
+    void setUp(){
+        employeeRepository.getAll().clear();
+        employeeRepository.save(new Employee(1L, "Jackson", 18, Gender.FEMALE, 90000.0));
+        employeeRepository.save(new Employee(2L, "Don", 18, Gender.MALE, 50000.0));
+        employeeRepository.save(new Employee(3L, "Zane", 18, Gender.MALE, 10000.0));
+    }
 
     @Test
     void should_return_all_employees_when_get_all_given_employees() throws Exception {
