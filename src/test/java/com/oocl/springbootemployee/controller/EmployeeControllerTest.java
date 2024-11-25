@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -38,11 +39,14 @@ public class EmployeeControllerTest {
     private JacksonTester<List<Employee>> listJson;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         employeeRepository.getAll().clear();
         employeeRepository.save(new Employee(1L, "Jackson", 18, Gender.FEMALE, 90000.0));
         employeeRepository.save(new Employee(2L, "Don", 18, Gender.MALE, 50000.0));
         employeeRepository.save(new Employee(3L, "Zane", 18, Gender.MALE, 10000.0));
+        employeeRepository.save(new Employee(4L, "Alwyn", 20, Gender.MALE, 66666.0));
+        employeeRepository.save(new Employee(5L, "Victor", 22, Gender.MALE, 16000.0));
+        employeeRepository.save(new Employee(6L, "Mason", 22, Gender.MALE, 88000.0));
     }
 
     @Test
@@ -157,7 +161,7 @@ public class EmployeeControllerTest {
 
         String content = "{\n" +
                 "    \"name\": \"" + employee.getName() + "\",\n" +
-                "    \"age\": " +  newAge +",\n" +
+                "    \"age\": " + newAge + ",\n" +
                 "    \"gender\": \"" + employee.getGender() + "\",\n" +
                 "    \"salary\": " + newSalary + "\n" +
                 "}";
@@ -169,6 +173,23 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(newAge))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(employee.getGender().name()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(newSalary));
+    }
+
+    @Test
+    void should_return_page_1_with_size_5_when_getPage_given_page_1_and_size_5() throws Exception {
+        // Given
+        int page = 1;
+        int size = 5;
+
+        // When & Then
+        client.perform(MockMvcRequestBuilders.get("/employees").param("page", String.valueOf(page)).param("size", String.valueOf(size)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(5)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(3L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[3].id").value(4L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[4].id").value(5L));
     }
 
 }
