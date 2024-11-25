@@ -27,7 +27,6 @@ import static org.hamcrest.Matchers.hasSize;
 @AutoConfigureJsonTesters
 public class EmployeeControllerTest {
 
-    private static final Logger log = LoggerFactory.getLogger(EmployeeControllerTest.class);
     @Autowired
     private MockMvc client;
     @Autowired
