@@ -127,4 +127,15 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(expectEmployee.getSalary()));
     }
 
+    @Test
+    void should_return_no_content_when_deleteById_given_exist_id() throws Exception {
+        // Given
+        List<Employee> employees = employeeRepository.getAll();
+        Employee employee = employees.get(0);
+
+        // When & Then
+        client.perform(MockMvcRequestBuilders.delete("/employees/" + employee.getId()))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
 }
