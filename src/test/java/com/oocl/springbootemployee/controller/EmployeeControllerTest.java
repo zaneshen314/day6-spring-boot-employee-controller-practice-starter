@@ -1,6 +1,7 @@
 package com.oocl.springbootemployee.controller;
 
 import com.oocl.springbootemployee.entity.Employee;
+import com.oocl.springbootemployee.entity.Gender;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -86,6 +87,24 @@ public class EmployeeControllerTest {
 
         // Then
         assertThat(employeeJson).isEqualTo("");
+    }
+
+    @Test
+    void should_return_male_employees_when_getByGender_given_gender_male() throws Exception {
+        // Given
+        final List<Employee> givenEmployees = employeeRepository.getByGender(Gender.MALE);
+
+        // When
+        String employeeJson = client.perform(MockMvcRequestBuilders.get("/employees").param("gender", "MALE"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        List<Employee> employees = listJson.parseObject(employeeJson);
+
+        // Then
+        assertThat(employees.size()).isEqualTo(givenEmployees.size());
+        assertThat(employees.get(0).getId()).isEqualTo(givenEmployees.get(0).getId());
+        assertThat(employees.get(1).getId()).isEqualTo(givenEmployees.get(1).getId());
+
     }
 
 
