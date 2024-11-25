@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -47,9 +48,7 @@ public class EmployeeControllerTest {
         List<Employee> employees = listJson.parseObject(employeeJson);
 
         // Then
-        assertThat(employees.get(0).getId()).isEqualTo(givenEmployees.get(0).getId());
-        assertThat(employees.get(1).getId()).isEqualTo(givenEmployees.get(1).getId());
-        assertThat(employees.get(2).getId()).isEqualTo(givenEmployees.get(2).getId());
+        assertThat(employees).isEqualTo(givenEmployees);
 
 //        client.perform(MockMvcRequestBuilders.get("/employees"))
 //                .andExpect(MockMvcResultMatchers.status().isOk())
@@ -73,7 +72,7 @@ public class EmployeeControllerTest {
         Employee returnedEmployee = json.parseObject(employeeJson);
 
         // Then
-        assertThat(returnedEmployee.getId()).isEqualTo(employee.getId());
+        assertThat(returnedEmployee).isEqualTo(employee);
     }
 
     @Test
@@ -102,9 +101,7 @@ public class EmployeeControllerTest {
         List<Employee> employees = listJson.parseObject(employeeJson);
 
         // Then
-        assertThat(employees.size()).isEqualTo(givenEmployees.size());
-        assertThat(employees.get(0).getId()).isEqualTo(givenEmployees.get(0).getId());
-        assertThat(employees.get(1).getId()).isEqualTo(givenEmployees.get(1).getId());
+        assertThat(employees).isEqualTo(givenEmployees);
 
     }
 
@@ -118,10 +115,9 @@ public class EmployeeControllerTest {
                 "    \"salary\": 900000.0\n" +
                 "}";
 
-        Employee expectEmployee = employeeRepository.save(json.parseObject(content));
+        Employee expectEmployee = json.parseObject(content);
 
-        // When
-        // Then
+        // When & Then
         client.perform(MockMvcRequestBuilders.post("/employees")
                         .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
