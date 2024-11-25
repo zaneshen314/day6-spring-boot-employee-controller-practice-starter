@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -107,5 +108,27 @@ public class EmployeeControllerTest {
 
     }
 
+    @Test
+    void should_return_employee_when_create_given_employee_info() throws Exception {
+        // Given
+        String content = "{\n" +
+                "    \"name\": \"Alwyn\",\n" +
+                "    \"age\": 18,\n" +
+                "    \"gender\": \"MALE\",\n" +
+                "    \"salary\": 900000.0\n" +
+                "}";
+
+        Employee expectEmployee = employeeRepository.save(json.parseObject(content));
+
+        // When
+        // Then
+        client.perform(MockMvcRequestBuilders.post("/employees")
+                        .contentType(MediaType.APPLICATION_JSON).content(content))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(expectEmployee.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(expectEmployee.getAge()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(expectEmployee.getGender()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(expectEmployee.getSalary()));
+    }
 
 }
