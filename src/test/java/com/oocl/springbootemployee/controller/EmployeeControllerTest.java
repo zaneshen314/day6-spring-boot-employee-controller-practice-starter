@@ -40,13 +40,14 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    void should_return_employee_when_getById_given_id() throws Exception {
+    void should_return_employee_when_getById_given_exist_id() throws Exception {
         // Given
         long id = 1;
-        Employee employee = employeeRepository.getById(id);
+        List<Employee> employees = employeeRepository.getAll();
+        Employee employee = employees.get(0);
 
         // When & Then
-        client.perform(MockMvcRequestBuilders.get("/employees/"+ id))
+        client.perform(MockMvcRequestBuilders.get("/employees/"+ employee.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(employee.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employee.getName()))
