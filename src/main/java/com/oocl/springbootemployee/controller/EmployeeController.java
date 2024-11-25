@@ -4,6 +4,7 @@ import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.entity.Gender;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,4 +35,9 @@ public class EmployeeController {
         return employeeRepository.getByGender(gender);
     }
 
+    @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public Employee create(@RequestBody Employee employee) {
+        return employeeRepository.save(employee);
+    }
 }

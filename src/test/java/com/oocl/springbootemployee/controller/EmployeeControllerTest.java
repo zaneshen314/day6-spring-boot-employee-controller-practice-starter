@@ -127,7 +127,7 @@ public class EmployeeControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(expectEmployee.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(expectEmployee.getAge()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(expectEmployee.getGender()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.gender").value(expectEmployee.getGender().name()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.salary").value(expectEmployee.getSalary()));
     }
 

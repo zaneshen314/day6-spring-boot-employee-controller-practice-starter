@@ -38,6 +38,8 @@ public class EmployeeRepository {
 
 
     public Employee save(Employee employee) {
-        return null;
+        employee.setId((Long) (employees.size() + 1L));
+        employees.add(employee);
+        return employee;
     }
 }
