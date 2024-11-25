@@ -28,7 +28,7 @@ public class EmployeeRepository {
     }
 
     public Employee getById(Long id) {
-        return employees.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElseThrow();
+        return employees.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
     }
 
 
