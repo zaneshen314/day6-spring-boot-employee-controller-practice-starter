@@ -27,34 +27,34 @@ public class CompanyController {
 
     @GetMapping("/{id}")
     public CompanyResponse getCompanyById(@PathVariable Long id) {
-        return null;
+        return companyRepository.getCompanyResById(id);
     }
 
     @GetMapping("/{id}/employees")
     public List<Employee> getEmployeesByCompanyId(@PathVariable Long id) {
-        return null;
+        return companyRepository.getEmployeesByCompanyId(id);
     }
 
     @GetMapping(params = {"page", "size"})
     public List<Company> getCompaniesByPage(@RequestParam Integer page, @RequestParam Integer size) {
-        return null;
+        return companyRepository.getCompaniesByPage(page, size);
     }
 
     @PutMapping("/{id}")
-    public void updateCompany(@PathVariable Long id, @RequestBody Company company) {
-
+    public Company updateCompany(@PathVariable Long id, @RequestBody Company company) {
+        return companyRepository.updateCompany(id, company);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Company createCompany(@RequestBody Company company) {
-        return null;
+        return companyRepository.createCompany(company);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompany(@PathVariable Long id) {
-
+        companyRepository.deleteCompany(id);
     }
 
 
