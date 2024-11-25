@@ -3,7 +3,6 @@ package com.oocl.springbootemployee.repository;
 import com.oocl.springbootemployee.entity.Company;
 import com.oocl.springbootemployee.entity.CompanyResponse;
 import com.oocl.springbootemployee.entity.Employee;
-import com.oocl.springbootemployee.entity.Gender;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
