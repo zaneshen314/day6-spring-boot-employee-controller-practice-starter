@@ -7,7 +7,6 @@ import com.oocl.springbootemployee.repository.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -55,7 +54,7 @@ public class EmployeeController {
 
     @GetMapping(params = {"page", "size"})
     public List<Employee> updateById(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return null;
+        return employeeRepository.getPage(page, size);
     }
 
 }

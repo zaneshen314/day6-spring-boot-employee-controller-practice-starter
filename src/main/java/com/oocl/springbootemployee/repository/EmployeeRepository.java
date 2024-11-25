@@ -23,20 +23,20 @@ public class EmployeeRepository {
     }
 
     public List<Employee> getAll() {
-      return employees;
+        return employees;
     }
 
     public Employee getById(Long id) {
         return employees.stream().filter(employee -> employee.getId().equals(id)).findFirst().orElse(null);
     }
 
-    public List<Employee> getByGender(Gender gender){
+    public List<Employee> getByGender(Gender gender) {
         return employees.stream().filter(employee -> employee.getGender().equals(gender)).collect(Collectors.toList());
     }
 
 
     public Employee save(Employee employee) {
-        employee.setId((Long) (employees.size() + 1L));
+        employee.setId(employees.size() + 1L);
         employees.add(employee);
         return employee;
     }
@@ -46,9 +46,15 @@ public class EmployeeRepository {
     }
 
     public Employee update(Long id, Employee employee) {
-        Employee byId = getById(id);
-        byId.setAge(employee.getAge());
-        byId.setSalary(employee.getSalary());
-        return byId;
+        Employee updateEmployee = getById(id);
+        updateEmployee.setAge(employee.getAge());
+        updateEmployee.setSalary(employee.getSalary());
+        return updateEmployee;
+    }
+
+    public List<Employee> getPage(int page, int size) {
+        return getAll().stream()
+                .skip((page - 1L) * size).limit(size)
+                .toList();
     }
 }
