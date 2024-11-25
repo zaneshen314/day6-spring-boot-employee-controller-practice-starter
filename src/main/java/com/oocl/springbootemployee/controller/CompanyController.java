@@ -1,6 +1,7 @@
 package com.oocl.springbootemployee.controller;
 
 
+import com.oocl.springbootemployee.entity.BasePage;
 import com.oocl.springbootemployee.entity.Company;
 import com.oocl.springbootemployee.entity.CompanyResponse;
 import com.oocl.springbootemployee.entity.Employee;
@@ -36,7 +37,7 @@ public class CompanyController {
     }
 
     @GetMapping(params = {"page", "size"})
-    public List<Company> getCompaniesByPage(@RequestParam Integer page, @RequestParam Integer size) {
+    public BasePage<Company> getCompaniesByPage(@RequestParam Integer page, @RequestParam Integer size) {
         return companyRepository.getCompaniesByPage(page, size);
     }
 

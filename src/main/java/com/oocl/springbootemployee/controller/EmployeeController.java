@@ -1,5 +1,6 @@
 package com.oocl.springbootemployee.controller;
 
+import com.oocl.springbootemployee.entity.BasePage;
 import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.entity.Gender;
 import com.oocl.springbootemployee.repository.EmployeeRepository;
@@ -52,7 +53,7 @@ public class EmployeeController {
     }
 
     @GetMapping(params = {"page", "size"})
-    public List<Employee> updateById(@RequestParam("page") int page, @RequestParam("size") int size) {
+    public BasePage<Employee> updateById(@RequestParam("page") int page, @RequestParam("size") int size) {
         return employeeRepository.getPage(page, size);
     }
 

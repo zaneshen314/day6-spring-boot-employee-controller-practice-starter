@@ -1,5 +1,6 @@
 package com.oocl.springbootemployee.repository;
 
+import com.oocl.springbootemployee.entity.BasePage;
 import com.oocl.springbootemployee.entity.Company;
 import com.oocl.springbootemployee.entity.CompanyResponse;
 import com.oocl.springbootemployee.entity.Employee;
@@ -35,8 +36,10 @@ public class CompanyRepository {
         return company != null ? company.getEmployees() : null;
     }
 
-    public List<Company> getCompaniesByPage(Integer page, Integer size) {
-        return companies.stream().skip( (page - 1L) * size).limit(size).collect(Collectors.toList());
+    public BasePage<Company> getCompaniesByPage(Integer page, Integer size) {
+        List<Company> allCompanies = getAll();
+        List<Company> pageCompanies = allCompanies.stream().skip((page - 1L) * size).limit(size).toList();
+        return new BasePage<>(pageCompanies, (long) allCompanies.size(), size, page);
     }
 
     public Company updateCompany(Long id, Company company) {

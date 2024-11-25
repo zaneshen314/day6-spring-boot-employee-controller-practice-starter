@@ -1,5 +1,6 @@
 package com.oocl.springbootemployee.repository;
 
+import com.oocl.springbootemployee.entity.BasePage;
 import com.oocl.springbootemployee.entity.Employee;
 import com.oocl.springbootemployee.entity.Gender;
 import org.springframework.stereotype.Repository;
@@ -52,9 +53,9 @@ public class EmployeeRepository {
         return updateEmployee;
     }
 
-    public List<Employee> getPage(int page, int size) {
-        return getAll().stream()
-                .skip((page - 1L) * size).limit(size)
-                .toList();
+    public BasePage<Employee> getPage(int page, int size) {
+        List<Employee> allEmployees = getAll();
+        List<Employee> pageEmployees = allEmployees.stream().skip((page - 1L) * size).limit(size).toList();
+        return new BasePage<>(pageEmployees, (long) allEmployees.size(), size, page);
     }
 }
