@@ -32,9 +32,9 @@ public class CompanyControllerTest {
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
-    public JacksonTester<Company> json;
+    public JacksonTester<Company> companyJacksonTester;
     @Autowired
-    private JacksonTester<List<Company>> listJson;
+    private JacksonTester<List<Company>> listJacksonTester;
 
     @BeforeEach
     void setUp() {
@@ -63,7 +63,7 @@ public class CompanyControllerTest {
         String companyJson = client.perform(MockMvcRequestBuilders.get("/companies"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        List<Company> companies = listJson.parseObject(companyJson);
+        List<Company> companies = listJacksonTester.parseObject(companyJson);
 
         // Then
         assertThat(companies).isEqualTo(givenCompanies);
@@ -79,7 +79,7 @@ public class CompanyControllerTest {
         String companyJson = client.perform(MockMvcRequestBuilders.get("/companies/" + company.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        Company returnedCompany = json.parseObject(companyJson);
+        Company returnedCompany = companyJacksonTester.parseObject(companyJson);
 
         // Then
         assertThat(returnedCompany).isEqualTo(company);
